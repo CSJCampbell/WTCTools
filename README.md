@@ -16,7 +16,7 @@ library(devtools)
 install_github("CSJCampbell/WTCTools")
 ```
 
-This package also includes tests in **testthat** format. From R run the call `test_package("WMTools")`.
+This package also includes tests in **testthat** format. From R run the call `test_package("WTCTools")`.
    
 ```R
 library(WTCTools)
