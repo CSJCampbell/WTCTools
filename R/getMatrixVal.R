@@ -10,13 +10,21 @@
 #' @export
 #' @examples
 #' m1 <- matrix(1:9, nrow = 3, dimnames = list(letters[1:3], letters[1:3])) / 10
-#' getMatrixVal(list1 = "b", list2 = "a", x = m1)
+#' getMatrixVal(list1 = "b", list2 = c("a", "b"), x = m1)
 #' getMatrixVal(list1 = c("b", "b", "c", "a"), list2 = c("a", "c", "c", "b"), x = m1)
 
 getMatrixVal <- function(list1, list2, x) {
-    if (length(list1) != length(list2)) { stop("list1 and list2 must be the same length") }
-    val <- numeric(length(list1))
-    for (i in seq_along(val)) { val[i] <- x[list1[i], list2[i]] }
+    if (length(list1) != length(list2) && 
+        !(length(list1) == 1L || 
+        length(list2) == 1L)) {
+        stop("list1 and list2 must be the same length")
+    }
+    if (length(list1) == 1L) { list1 <- rep(list1, times = length(list2)) }
+    if (length(list2) == 1L) { list2 <- rep(list2, times = length(list1)) }
+    val <- numeric(max(length(list1), length(list2)))
+    for (i in seq_along(val)) {
+        val[i] <- x[list1[i], list2[i]]
+    }
     return(val)
 }
 

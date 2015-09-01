@@ -21,7 +21,7 @@ install_github("CSJCampbell/WTCTools")
 
 This package also includes tests in **testthat** format. 
 From R run the call `test_package("WTCTools")`.
-   
+This package contains the 2014 dataset where player 1 was the winner of each game.
 ```R
 library(WTCTools)
 head(wtc2014)
@@ -34,4 +34,10 @@ head(rating$ratings)
 # 4 Anthony Ferraiolo 2590.775  155.9631     6   5    0    1   0
 # 5        Colin Hill 2587.563  165.7409     6   6    0    0   0
 # 6       Will Pagani 2563.477  161.2261     6   5    0    1   0
+```
+
+
+```R
+wtc2014 <- na.omit(wtc2014)
+pairLookup <- initializeLookup(data = wtc2014)
 ```
