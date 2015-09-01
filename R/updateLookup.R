@@ -127,7 +127,8 @@ getPairs <- function(data) {
 
 initializeLookup <- function(data, list1 = "list1", list2 = "list2") {
     
-    lists <- sort(unique(unlist(data[c(list1, list2)])))
+    lists <- unique(unlist(data[c(list1, list2)]))
+    lists <- sort(na.omit(lists))
 
     pairLookup <- matrix(0, 
         nrow = length(lists), 

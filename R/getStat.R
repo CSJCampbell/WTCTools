@@ -33,6 +33,10 @@ getStat <- function(data, pairlookup,
         stop("pairlookup must be a square matrix")
     }
     
+    if (!all(rownames(pairlookup) %in% colnames(pairlookup))) {
+        stop("rownames of pairlookup must be colnames of pairlookup")
+    }
+    
     pstephplayer1 <- getPred(data = data, 
         pairlookup = pairlookup, round = round, 
         player1 = player1, player2 = player2, 
