@@ -38,12 +38,20 @@ updateLookup <- function(data, pairlookup = NULL, pairs = NULL,
     player1 = "player1", player2 = "player2", 
     result = "result", list1 = "list1", list2 = "list2") {
     
+    if (missing(data)) { stop("data is missing") }
+    if (is.null(data)) { stop("data is NULL") }
+    if (!is.data.frame(data)) { stop("data must be a data frame") }
+    colNames <- c(compare, round, player1, player2, result, list1, list2)
+    isFoundCol <- colNames %in% colnames(data)
+    if (!all(isFoundCol)) {
+        stop("missing columns in data:", paste(colNames[!isFoundCol], collapse = ", "))
+    }
     if (is.null(pairlookup)) { 
         
-        pairlookup <- initializeLookup(data = data)
+        pairlookup <- initializeLookup(data = data[c(list1, list2)])
     }
     
-    if (is.null(pairs)) { 
+    if (is.null(pairs)) {
         
         pairs <- getPairs(data = data[c(list1, list2)]) 
     }
@@ -117,23 +125,24 @@ getPairs <- function(data) {
 
 #' Create a square matrix for pairing strength scores
 #'
-#' Generate an empty pairlookup matrix with columns named in 
-#' either list1 or list2.
-#' @inheritParams updateLookup
+#' @param data Character vector or list of character vectors
 #' @export
 #' @examples
-#' dat <- data.frame(list1 = c("A", "A", "B"), list2 = c("C", "B", "D"))
-#' initializeLookup(data = dat)
+#' dat <- data.frame(list1 = c("A", "A", "B"), list2 = c("C", "B", "D"), res = 1:3)
+#' initializeLookup(data = dat[c("list1", "list2")])
 
-initializeLookup <- function(data, list1 = "list1", list2 = "list2") {
+initializeLookup <- function(data) {
     
-    lists <- unique(unlist(data[c(list1, list2)]))
-    lists <- sort(na.omit(lists))
-
+    if (is.list(data)) {
+        data <- unlist(data)
+    }
+    
+    data <- sort(unique(na.omit(data)))
+    
     pairLookup <- matrix(0, 
-        nrow = length(lists), 
-        ncol = length(lists), 
-        dimnames = list(lists, lists))
+        nrow = length(data), 
+        ncol = length(data), 
+        dimnames = list(data, data))
     
     return(pairLookup)
 }

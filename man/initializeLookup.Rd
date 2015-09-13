@@ -4,22 +4,16 @@
 \alias{initializeLookup}
 \title{Create a square matrix for pairing strength scores}
 \usage{
-initializeLookup(data, list1 = "list1", list2 = "list2")
+initializeLookup(data)
 }
 \arguments{
-\item{data}{data.frame with columns round,
-player1, player2, result, list1, list2, compare}
-
-\item{list1}{single character name of player one's list column (default "list1")}
-
-\item{list2}{single character name of player two's list column (default "list2")}
+\item{data}{Character vector or list of character vectors}
 }
 \description{
-Generate an empty pairlookup matrix with columns named in
-either list1 or list2.
+Create a square matrix for pairing strength scores
 }
 \examples{
-dat <- data.frame(list1 = c("A", "A", "B"), list2 = c("C", "B", "D"))
-initializeLookup(data = dat)
+dat <- data.frame(list1 = c("A", "A", "B"), list2 = c("C", "B", "D"), res = 1:3)
+initializeLookup(data = dat[c("list1", "list2")])
 }
 

@@ -21,7 +21,7 @@ Extractor function for named matrix
 }
 \examples{
 m1 <- matrix(1:9, nrow = 3, dimnames = list(letters[1:3], letters[1:3])) / 10
-getMatrixVal(list1 = "b", list2 = "a", x = m1)
+getMatrixVal(list1 = "b", list2 = c("a", "b"), x = m1)
 getMatrixVal(list1 = c("b", "b", "c", "a"), list2 = c("a", "c", "c", "b"), x = m1)
 }
 

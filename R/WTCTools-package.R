@@ -48,3 +48,25 @@ NULL
 #'     pch = 22, pt.bg = c("#99334455", "#33887755"))
 
 NULL
+
+
+#' @name wtc2015_players
+#' @title World Team Championships 2015 Players
+#' @description Downloaded from http://www.discountgamesinc.com/tournaments/
+#' 
+#' @docType data
+#' @format Data frame with columns:\itemize{
+#'     \item Team character team name
+#'     \item Faction character faction
+#'     \item Player character name of player
+#'     \item List character warcaster/warlock
+#'     \item Objective character name of ojective selected
+#'     \item NModels integer number of entries in list
+#' }
+#' @keywords datasets
+#' @examples
+#' table(wtc2015_players$Objective)
+#' par(las = 2, mar = c(10, 4, 1, 1))
+#' barplot(table(wtc2015_players$Faction))
+
+NULL
