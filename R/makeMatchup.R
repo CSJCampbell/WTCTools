@@ -177,14 +177,21 @@ makeAllMatchups <- function(results) {
     }
     pairs <- character(nr)
     # pair within equal number of wins
+    pos1 <- 1L
+    pos2 <- 1L
     for (i in seq_along(scrs)) {
+        
         index <- grps == scrs[i]
-        
-        pairsScrs <- makeMatchup(
-            results = results[index, , 
-                drop = FALSE])
-        
-        pairs[index] <- pairsScrs
+        if (sum(index) > 0L) {
+            # do not change order of pairsScrs
+            pairsScrs <- makeMatchup(
+                results = results[index, , 
+                    drop = FALSE])
+            pos2 <- pos2 + sum(index) - 1L
+            pairs[seq.int(from = pos1, to = pos2)] <- pairsScrs
+            pos1 <- pos2 + 1L
+            pos2 <- pos2 + 1L
+        }
     }
     return(pairs)
 }

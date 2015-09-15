@@ -20,11 +20,11 @@ test_that("makeAllMatchups", {
     
     set.seed(34325)
     expect_equal(object = makeAllMatchups(results = eg), 
-        expected = c("a", "f", "c", "e", "d", "b", "g", "h"))
+        expected = c("a", "f", "b", "g", "c", "e", "d", "h"))
     
     set.seed(24325)
     expect_equal(object = makeAllMatchups(results = eg), 
-        expected = c("a", "f", "c", "d", "e", "b", "g", "h"))
+        expected = c("a", "f", "b", "g", "c", "d", "e", "h"))
     
     # handle pairdown
     eg <- data.frame(Total.Games.Won = c(5, 4, 3, 2, 0, 1), 
@@ -47,7 +47,7 @@ test_that("makeAllMatchups", {
     # note a gets pairdown twice
     set.seed(43256)
     expect_equal(object = makeAllMatchups(results = eg), 
-        expected = c("a", "h", "b", "d", "e", "f", "j", "c", "g", "i"))
+        expected = c("a", "h", "b", "c", "d", "j", "g", "i", "e", "f"))
     
 })
 
