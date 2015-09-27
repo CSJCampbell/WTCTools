@@ -42,8 +42,14 @@ head(wtc, n = 3)
 #1    Borka  Trollblood   2   2         1
 #2  Bartolo Mercenaries   4   4         1
 #3 Butcher2      Khador   1   1         1
+```
+Player ratings can be calculated using the **PlayerRatings** 
+package.
+
+```R
 wtc2013 <- na.omit(wtc[wtc$year == 2013, ])
-rating13 <- steph(x = wtc2013[, c("round", "player1", "player2", "TP")])
+rating13 <- steph(
+    x = wtc2013[, c("round", "player1", "player2", "TP")])
 head(rating13$ratings)
 #              Player   Rating Deviation Games Win Draw Loss Lag
 #1  Andrzej Kasiewicz 2635.488  165.7519     5   5    0    0   0
@@ -69,6 +75,11 @@ pairLookup13 <- updateLookup(
     round = "round", 
     compare = "TP", 
     result = "TP")
+```
+The resulting matrix can be used estimate of the 'home' advantage of playing
+a particular warcaster/warlock against another warcaster/warlock.
+
+```R
 ratingPairs13 <- steph(
     x = wtc2013[, c("round", "player1", "player2", "TP")], 
     gamma = getMatrixVal(
@@ -84,8 +95,8 @@ head(ratingPairs13$ratings)
 #5      Johan Persson 2555.896  172.9327     5   5    0    0   0
 #6        Brian White 2521.748  165.8261     5   4    0    1   0
 ```
-This approach is a measure of the 'home' advantage of playing
-a particular warcaster/warlock against another warcaster/warlock.
+This allows the relative strengths of the warcasters/warlocks 
+to be objectively compared.
 
 ```R
 h2 <- pairLookup["Haley2", ]
@@ -94,3 +105,4 @@ barplot(sort(h2[h2 != 0], decreasing = TRUE),
     col = "lightblue")
 ```
 
+![Haley2 Barplot](https://github.com/CSJCampbell/WTCTools/blob/master/wtc2013_haley2.png)
