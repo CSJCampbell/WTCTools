@@ -4,7 +4,8 @@
 \alias{doRound}
 \title{Get Results for a Round}
 \usage{
-doRound(data, round = 7, results = NULL, ratings, pairlookup)
+doRound(data, round = 7, results = NULL, ratings, pairlookup,
+  pairs = NULL)
 }
 \arguments{
 \item{data}{data frame with columns:\itemize{
@@ -25,6 +26,8 @@ and with columns:\itemize{
 \item{ratings}{\link[PlayerRatings]{rating} object}
 
 \item{pairlookup}{matrix of List pairings}
+
+\item{pairs}{character vector of unique teams}
 }
 \value{
 data frame with rownames Team, and columns Total.Games.Won, Matches.Won,

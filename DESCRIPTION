@@ -1,8 +1,8 @@
 Package: WTCTools
 Type: Package
 Title: Tools for analysing matchups in Warmachine(R)
-Version: 0.2
-Date: 2015-09-13
+Version: 0.3
+Date: 2015-09-25
 Author: Lacerto
 Maintainer: <chrissjcampbell@googlemail.com>
 Description: Use chess rankings for analysing list pairings.
@@ -11,3 +11,4 @@ Depends:
 Suggests:
     testthat
 License: GPL-2
+LazyData: true

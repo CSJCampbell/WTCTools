@@ -28,9 +28,10 @@ getPred <- function(data, pairlookup, round = "round",
     player1 = "player1", player2 = "player2", 
     result = "result", list1 = "list1", list2 = "list2") {
     
-    gammaVar <- getMatrixVal(list1 = data[[list1]], 
-        list2 = data[[list2]], 
-        x = pairlookup)
+    gammaVar <- getMatrixVal(
+        x = pairlookup, 
+        list1 = data[[list1]], 
+        list2 = data[[list2]])
     
     # performance of player given list
     rating_player <- steph(x = data[, c(round, player1, player2, result)], 

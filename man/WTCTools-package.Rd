@@ -6,7 +6,7 @@
 \title{Warmachine World Team Championships Player and List Rankings}
 \description{
 Some utilities for extracting warcaster/warlock pairings
-from the WTC matchup results 2014.
+from the WTC matchup results.
 }
 \details{
 WARMACHINE is a registered trademark of Privateer Press Inc.

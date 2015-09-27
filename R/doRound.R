@@ -19,6 +19,7 @@
 #' }
 #' @param ratings \link[PlayerRatings]{rating} object
 #' @param pairlookup matrix of List pairings
+#' @param pairs character vector of unique teams
 #' @return data frame with rownames Team, and columns Total.Games.Won, Matches.Won, 
 #' and Opponent.Round.X, where X is the value of round
 #' @export
@@ -34,7 +35,7 @@
 #'     ratings = rat, pairlookup = initializeLookup(data = wtc2015_players$List))
 
 doRound <- function(data, round = 7, results = NULL, 
-    ratings, pairlookup) {
+    ratings, pairlookup, pairs = NULL) {
     if (!all(c("Team", "Player", "List") %in% colnames(data))) { 
         stop("data must have columns 'Team', 'Player' and 'List'") }
     if (missing(ratings)) { stop("ratings is missing") }
@@ -43,21 +44,30 @@ doRound <- function(data, round = 7, results = NULL,
     if (missing(pairlookup)) { stop("pairlookup is missing") }
     if (!is.matrix(pairlookup)) { stop("pairlookup must be a matrix") }
     if (!all(rownames(pairlookup) == colnames(pairlookup))) {
-        stop("pairlookup must have symmetric row names and column names") }
+        stop("pairlookup must have symmetric row names and column names")
+    }
     
-    isFirstRound <- is.null(results)
     teams <- unique(data$Team)
     nr <- length(teams)
     
-    if (isFirstRound) {
-        # dodge same country pairings
-        isGrp1 <- splitPairs(n = nr)
-        pairs <- c(teams[isGrp1][order(runif(n = nr / 2))], 
-            teams[!isGrp1][order(runif(n = nr / 2))])
-        
-    } else {
-        # TODO try to dodge same country pairings
-        pairs <- makeAllMatchups(results = results)
+    if (!is.null(pairs)) {
+        if (!all(sort(pairs) == sort(teams))) {
+            stop("pairs should be the unique pairings for teams")
+        }
+    }
+    isFirstRound <- is.null(results)
+    
+    if (is.null(pairs)) {
+        if (isFirstRound) {
+            # dodge same country pairings
+            isGrp1 <- splitPairs(n = nr)
+            pairs <- c(teams[isGrp1][order(runif(n = nr / 2))], 
+                teams[!isGrp1][order(runif(n = nr / 2))])
+            
+        } else {
+            # TODO try to dodge same country pairings
+            pairs <- makeAllMatchups(results = results)
+        }
     }
     # get results for pairs
     matchRound <- numeric(nr)

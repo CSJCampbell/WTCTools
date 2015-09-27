@@ -10,7 +10,8 @@
 #' @param pairlookup square matrix with rownames in list1 and colnames in list2.
 #' @param pairs matrix with two colums
 #' where each row is a pair of lists to optimize
-#' @param penalty, single numeric, magnitude of maximum penalty available to pairs (default 30)
+#' @param penalty, single numeric, magnitude of maximum penalty 
+#' available to pairs (default 30)
 #' @param seed single numeric, reproducible randomization
 #' @param player1 single character name of player one column (default "player1")
 #' @param player2 single character name of player two column (default "player2")
@@ -19,6 +20,8 @@
 #' @param compare single character name of comparison column (default "scorefrac")
 #' @param list1 single character name of player one's list column (default "list1")
 #' @param list2 single character name of player two's list column (default "list2")
+#' @param inflate single numeric in interval (1, 2), allow optimizer to search 
+#' further when there are more results for a given pair.
 #' @return matrix with rownames in list1 and colnames in list2.
 #' @export
 #' @examples
@@ -33,10 +36,10 @@
 #' updateLookup(data = dat)
 
 updateLookup <- function(data, pairlookup = NULL, pairs = NULL, 
-    penalty = 30, seed = NULL,
+    penalty = 10, seed = NULL,
     compare = "scorefrac", round = "round", 
     player1 = "player1", player2 = "player2", 
-    result = "result", list1 = "list1", list2 = "list2") {
+    result = "result", list1 = "list1", list2 = "list2", inflate = 1.1) {
     
     if (missing(data)) { stop("data is missing") }
     if (is.null(data)) { stop("data is NULL") }
@@ -44,7 +47,8 @@ updateLookup <- function(data, pairlookup = NULL, pairs = NULL,
     colNames <- c(compare, round, player1, player2, result, list1, list2)
     isFoundCol <- colNames %in% colnames(data)
     if (!all(isFoundCol)) {
-        stop("missing columns in data:", paste(colNames[!isFoundCol], collapse = ", "))
+        stop("missing columns in data:", 
+            paste(colNames[!isFoundCol], collapse = ", "))
     }
     if (is.null(pairlookup)) { 
         
@@ -64,13 +68,28 @@ updateLookup <- function(data, pairlookup = NULL, pairs = NULL,
     
     for (p in seq_len(nrow(pairs))) {
         
-        nrecords <- sum((data[[list1]] == pairs[p, 1] & 
-                    data[[list2]] == pairs[p, 2]) |
-                (data[[list2]] == pairs[p, 1] & 
-                    data[[list1]] == pairs[p, 2]))
+        nrecords <- sum((data[[list1]] == pairs[p, 1L] & 
+                    data[[list2]] == pairs[p, 2L]) |
+                (data[[list2]] == pairs[p, 1L] & 
+                    data[[list1]] == pairs[p, 2L]))
+        
+        lastN <- getMatrixVal(
+            list1 = pairs[p, 1L], 
+            list2 = pairs[p, 2L], 
+            x = attr(x = pairlookup, which = "n"))
+        
+        # search in range restricted by number of records 
+        # available around previous value
+        
+        # allow to move further if more records, 
+        # but less far if more previous records
+        
+        canMove <- (nrecords / (lastN + nrecords)) * nrecords^inflate
         
         vmin <- optimize(getNewStat, 
-            interval = c(- penalty * nrecords^2, penalty * nrecords^2), 
+            interval = c(- penalty * canMove, penalty * canMove) + 
+                getMatrixVal(x = pairlookup,
+                    list1 = pairs[p, 1L], list2 = pairs[p, 2L]), 
             data = data, 
             pairlookup = pairlookup, pair = pairs[p, ], 
             compare = compare, round = round, 
@@ -83,8 +102,14 @@ updateLookup <- function(data, pairlookup = NULL, pairs = NULL,
             list2 = pairs[p, 2L], 
             x = pairlookup, 
             val = vmin$minimum)
+        
+        attr(x = pairlookup, which = "n") <- setMatrixVal(
+            list1 = pairs[p, 1L], 
+            list2 = pairs[p, 2L], 
+            x = attr(x = pairlookup, which = "n"), 
+            val = nrecords + lastN, 
+            neg = FALSE)
     }
-    
     return(pairlookup)
 }
 
@@ -105,14 +130,27 @@ updateLookup <- function(data, pairlookup = NULL, pairs = NULL,
 getPairs <- function(data) {
     
     if (is.list(data) && !is.data.frame(data)) { 
-        data <- as.data.frame(data, stringsAsFactors = FALSE) }
+        data <- as.data.frame(data, stringsAsFactors = FALSE)
+    }
     
     if (ncol(data) != 2L) { stop("exactly two columns expected in data") }
     
+    data <- as.matrix(data)
+    
+    if (any(is.na(data))) {
+        warning("removing missing values in data")
+        data <- na.omit(data)
+    }
+    dimnames(data) <- NULL
+    
     allPairs <- apply(X = data, MARGIN = 1L, FUN = sort)
     
-    allPairs <- t(allPairs)
     
+    if (is.list(allPairs)) {
+        allPairs <- do.call("rbind", allPairs)
+    } else {
+        allPairs <- t(allPairs)
+    }
     allPairs <- allPairs[order(allPairs[, 1L], allPairs[, 2L]), , drop = FALSE]
     
     allPairs <- allPairs[!duplicated(allPairs), , drop = FALSE]
@@ -125,10 +163,14 @@ getPairs <- function(data) {
 
 #' Create a square matrix for pairing strength scores
 #'
+#' Create a blank named matrix with attribute "n",
+#' which is an identical blank matrix.
+#' 
 #' @param data Character vector or list of character vectors
 #' @export
 #' @examples
-#' dat <- data.frame(list1 = c("A", "A", "B"), list2 = c("C", "B", "D"), res = 1:3)
+#' dat <- data.frame(list1 = c("A", "A", "B"), 
+#'     list2 = c("C", "B", "D"), res = 1:3)
 #' initializeLookup(data = dat[c("list1", "list2")])
 
 initializeLookup <- function(data) {
@@ -139,11 +181,12 @@ initializeLookup <- function(data) {
     
     data <- sort(unique(na.omit(data)))
     
-    pairLookup <- matrix(0, 
+    pairLookup <- matrix(0L, 
         nrow = length(data), 
         ncol = length(data), 
         dimnames = list(data, data))
     
+    attr(x = pairLookup, which = "n") <- pairLookup
     return(pairLookup)
 }
 

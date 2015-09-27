@@ -64,9 +64,9 @@ playMatchup <- function(team1, team2,
     prob <- predict(ratings, 
         dat[, c("round", "team1players", "team2players")], 
         tng = 0, gamma = getMatrixVal(
+            x = pairlookup,
             list1 = dat[, "team1lists"], 
-            list2 = dat[, "team2lists"], 
-            x = pairlookup))
+            list2 = dat[, "team2lists"]))
     resGame <- rbinom(n = 5, size = 1, prob = prob)
     return(resGame)
 }
@@ -140,8 +140,12 @@ makePairing <- function(team1players, team2players,
 #' splitPairs(n = 4)
 
 splitPairs <- function(n = 10L) {
-    if (length(n) != 1L) { stop("n must be length one") }
-    if (n %% 2 != 0) { warning("n should be even") }
+    if (length(n) != 1L) { 
+        stop("n must be length one")
+    }
+    if (n %% 2 != 0) { 
+        warning("n should be even")
+    }
     rand <- runif(n / 2)
     cl <- numeric(n)
     cl[seq_len(n / 2) * 2] <- rand

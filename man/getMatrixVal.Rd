@@ -11,7 +11,7 @@ getMatrixVal(list1, list2, x)
 
 \item{list2}{character column name of rows in matrix}
 
-\item{x}{matrix with named rows and column}
+\item{x}{matrix with named rows and columns}
 }
 \value{
 single numeric
