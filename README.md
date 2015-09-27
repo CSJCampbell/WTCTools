@@ -99,7 +99,7 @@ This allows the relative strengths of the warcasters/warlocks
 to be objectively compared.
 
 ```R
-h2 <- pairLookup["Haley2", ]
+h2 <- pairLookup13["Haley2", ]
 par(mar = c(7, 4, 1, 1), las = 2)
 barplot(sort(h2[h2 != 0], decreasing = TRUE), 
     col = "lightblue")
