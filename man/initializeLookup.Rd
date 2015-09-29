@@ -10,10 +10,12 @@ initializeLookup(data)
 \item{data}{Character vector or list of character vectors}
 }
 \description{
-Create a square matrix for pairing strength scores
+Create a blank named matrix with attribute "n",
+which is an identical blank matrix.
 }
 \examples{
-dat <- data.frame(list1 = c("A", "A", "B"), list2 = c("C", "B", "D"), res = 1:3)
+dat <- data.frame(list1 = c("A", "A", "B"),
+    list2 = c("C", "B", "D"), res = 1:3)
 initializeLookup(data = dat[c("list1", "list2")])
 }
 

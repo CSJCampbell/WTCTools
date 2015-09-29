@@ -4,10 +4,10 @@
 \alias{updateLookup}
 \title{Update pair matrix using data.}
 \usage{
-updateLookup(data, pairlookup = NULL, pairs = NULL, penalty = 30,
+updateLookup(data, pairlookup = NULL, pairs = NULL, penalty = 10,
   seed = NULL, compare = "scorefrac", round = "round",
   player1 = "player1", player2 = "player2", result = "result",
-  list1 = "list1", list2 = "list2")
+  list1 = "list1", list2 = "list2", inflate = 1.1)
 }
 \arguments{
 \item{data}{data.frame with columns round,
@@ -18,7 +18,8 @@ player1, player2, result, list1, list2, compare}
 \item{pairs}{matrix with two colums
 where each row is a pair of lists to optimize}
 
-\item{penalty,}{single numeric, magnitude of maximum penalty available to pairs (default 30)}
+\item{penalty,}{single numeric, magnitude of maximum penalty
+available to pairs (default 30)}
 
 \item{seed}{single numeric, reproducible randomization}
 
@@ -35,6 +36,9 @@ where each row is a pair of lists to optimize}
 \item{list1}{single character name of player one's list column (default "list1")}
 
 \item{list2}{single character name of player two's list column (default "list2")}
+
+\item{inflate}{single numeric in interval (1, 2), allow optimizer to search
+further when there are more results for a given pair.}
 }
 \value{
 matrix with rownames in list1 and colnames in list2.

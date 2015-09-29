@@ -4,16 +4,19 @@
 \alias{setMatrixVal}
 \title{Set a value in a Matrix}
 \usage{
-setMatrixVal(list1, list2, x, val)
+setMatrixVal(x, list1, list2, val, neg = TRUE)
 }
 \arguments{
-\item{list1}{name}
+\item{x}{named matrix}
 
-\item{list2}{name}
+\item{list1}{single character name of player 1 list}
 
-\item{x}{matrix}
+\item{list2}{single character name of player 2 list}
 
-\item{val}{single numeric}
+\item{val}{single numeric value to set}
+
+\item{neg}{single logical should reverse pair be
+negative or save sign? (default TRUE)}
 }
 \value{
 matrix
@@ -22,8 +25,10 @@ matrix
 Updater function for named matrix
 }
 \examples{
-m1 <- matrix(0, nrow = 3, ncol = 3, dimnames = list(letters[1:3], letters[1:3])) / 10
+m1 <- matrix(0, nrow = 3, ncol = 3,
+    dimnames = list(letters[1:3], letters[1:3])) / 10
 setMatrixVal(list1 = "b", list2 = "a", x = m1, val = -2)
-setMatrixVal(list1 = c("a", "b", "c"), list2 = c("b", "c", "a"), x = m1, val = 1:3)
+setMatrixVal(list1 = c("a", "b", "c"),
+    list2 = c("b", "c", "a"), x = m1, val = 1:3)
 }
 

@@ -4,14 +4,14 @@
 \alias{getMatrixVal}
 \title{Get a value from a Matrix}
 \usage{
-getMatrixVal(list1, list2, x)
+getMatrixVal(x, list1, list2)
 }
 \arguments{
+\item{x}{matrix with named rows and columns}
+
 \item{list1}{character vector name of rows in matrix}
 
 \item{list2}{character column name of rows in matrix}
-
-\item{x}{matrix with named rows and columns}
 }
 \value{
 single numeric
@@ -20,8 +20,12 @@ single numeric
 Extractor function for named matrix
 }
 \examples{
-m1 <- matrix(1:9, nrow = 3, dimnames = list(letters[1:3], letters[1:3])) / 10
-getMatrixVal(list1 = "b", list2 = c("a", "b"), x = m1)
-getMatrixVal(list1 = c("b", "b", "c", "a"), list2 = c("a", "c", "c", "b"), x = m1)
+m1 <- matrix(1:9, nrow = 3,
+    dimnames = list(letters[1:3], letters[1:3])) / 10
+getMatrixVal(x = m1,
+    list1 = "b", list2 = c("a", "b"))
+getMatrixVal(x = m1,
+    list1 = c("b", "b", "c", "a"),
+    list2 = c("a", "c", "c", "b"))
 }
 
