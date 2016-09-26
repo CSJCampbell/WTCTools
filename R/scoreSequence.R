@@ -20,8 +20,12 @@
 #' scoreSequence(guess = c("c", "b", "a"), result = letters) # 4/3 (3)
 #' scoreSequence(guess = letters[1:3], result = letters) # 0 (3)
 #' scoreSequence(guess = c("a", "a", "a"), result = letters) # 1 (3)
+#' # aa not found (26), ab is 1 away, a is 2 away
 #' scoreSequence(guess = c("aa", "ab", "a"), result = paste0(letters, "b")) # 29/3 (3)
 #' scoreSequence(guess = "Australia", result = leaderboard15$Team) # 2 (1)
+#' # distance is 0 + 0 + 0 + 3 + 4 / 5
+#' scoreSequence(guess = c("a", "b", "c"), result = c("a A", "b B", "c C", "a B", "a C")) # 7/3
+
 
 scoreSequence <- function(guess, result) {
     
@@ -38,7 +42,9 @@ scoreSequence <- function(guess, result) {
     nr <- length(result)
     if (ng > 0L) {
         exact <- FALSE
-        if (length(guess) == length(result) && all(guess %in% result)) { exact <- TRUE }
+        if (length(guess) == length(result) && all(guess %in% result)) { 
+            exact <- TRUE
+        }
         res <- integer(length(guess))
         if (exact) {
             res <- abs(seq_len(ng) - order(as.integer(factor(guess, labels = result))))
@@ -52,14 +58,17 @@ scoreSequence <- function(guess, result) {
                         warning(guess[i], " not found")
                         res[i] <- nr
                     } else {
-                        res[i] <- abs(i - found[1])
-                        if (length(found) > 1) {
-                            # add any additional hits found twice, 
-                            # since guessing either position
-                            res <- c(res, abs(i - found[-1]))
-                            ng <- ng + length(found) - 1
-                            if (length(found) > 2) {
-                                warning(guess[i], "matched ", length(found), " values in result")
+                        for (match in seq_along(found)) {
+                            if (match == 1L) {
+                                # guess is position found[match]
+                                # position is i
+                                # difference is:
+                                res[i] <- abs(i - found[match])
+                            } else {
+                                # add any additional hits found twice, 
+                                # since guessing either position
+                                res <- c(res, abs(i - found[match]))
+                                ng <- ng + 1L
                             }
                         }
                     }

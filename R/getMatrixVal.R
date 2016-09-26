@@ -57,7 +57,11 @@ getMatrixVal <- function(x, list1, list2) {
 #' @param list1 single character name of player 1 list
 #' @param list2 single character name of player 2 list
 #' @param val single numeric value to set
-#' @param neg single logical should reverse pair be 
+#' @param type single character specify how opposite pair should be entered: \itemize{
+#'     \item neg negative
+#'     \item same equal to pair
+#'     \item 0-1 as 1 - pair (since pair is fraction)
+#' }
 #' negative or save sign? (default TRUE)
 #' @return matrix
 #' @export
@@ -68,7 +72,8 @@ getMatrixVal <- function(x, list1, list2) {
 #' setMatrixVal(list1 = c("a", "b", "c"), 
 #'     list2 = c("b", "c", "a"), x = m1, val = 1:3)
 
-setMatrixVal <- function(x, list1, list2, val, neg = TRUE) {
+setMatrixVal <- function(x, list1, list2, val, 
+    type = c("neg", "same", "0-1")) {
     if (missing(x)) { stop("x is missing") }
     if (missing(val)) { stop("val is missing") }
     if (length(list1) != length(list2)) { 
@@ -79,11 +84,15 @@ setMatrixVal <- function(x, list1, list2, val, neg = TRUE) {
     if (length(val) == 1L) { 
         val <- rep(val, times = length(list1))
     }
-    oppsign <- 1L
-    if (neg) { oppsign <- -1L }
+    type <- match.arg(type)
+    val2 <- switch(type,
+        "neg" = -val,
+        "same" = val,
+        "0-1" = 1 - val
+    )
     for (i in seq_along(val)) {
         x[list1[i], list2[i]] <- val[i]
-        x[list2[i], list1[i]] <- oppsign * val[i]
+        x[list2[i], list1[i]] <- val2[i]
     }
     return(x)
 }
