@@ -20,7 +20,7 @@
 #'     stringsAsFactors = FALSE)
 #' getStat(data = dat, pairlookup = pl, result = "result")
 
-getStat <- function(data, pairlookup, 
+getStat <- function(data, status = NULL, pairlookup, 
     compare = "scorefrac", round = "round", 
     player1 = "player1", player2 = "player2", 
     result = "result", list1 = "list1", list2 = "list2") {
@@ -37,7 +37,7 @@ getStat <- function(data, pairlookup,
         stop("rownames of pairlookup must be colnames of pairlookup")
     }
     
-    pstephplayer1 <- getPred(data = data, 
+    pstephplayer1 <- getPred(data = data, status = status,
         pairlookup = pairlookup, round = round, 
         player1 = player1, player2 = player2, 
         result = result, list1 = list1, list2 = list2)
@@ -82,7 +82,7 @@ getStat <- function(data, pairlookup,
 #' getNewStat(val = 60, data = dat, pairlookup = pl, 
 #'     pair = c("a", "b"))
 
-getNewStat <- function(val, data, pairlookup, pair, 
+getNewStat <- function(val, data, status = NULL, pairlookup, pair, 
     compare = "scorefrac", round = "round", 
     player1 = "player1", player2 = "player2", 
     result = "result", list1 = "list1", list2 = "list2") {
@@ -90,7 +90,7 @@ getNewStat <- function(val, data, pairlookup, pair,
     pairlookup <- setMatrixVal(list1 = pair[1], list2 = pair[2], 
         x = pairlookup, val = val)
     
-    stat <- getStat(data = data, pairlookup = pairlookup, 
+    stat <- getStat(data = data, status = status, pairlookup = pairlookup, 
         compare = compare, round = round, 
         player1 = player1, player2 = player2, 
         result = result, list1 = list1, list2 = list2)

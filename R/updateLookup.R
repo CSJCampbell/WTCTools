@@ -7,6 +7,7 @@
 #' 
 #' @param data data.frame with columns round, 
 #' player1, player2, result, list1, list2, compare
+#' @param status data frame containing prior ratings (from class rating)
 #' @param pairlookup square matrix with rownames in list1 and colnames in list2.
 #' @param pairs matrix with two colums
 #' where each row is a pair of lists to optimize
@@ -35,7 +36,7 @@
 #'     stringsAsFactors = FALSE)
 #' updateLookup(data = dat)
 
-updateLookup <- function(data, pairlookup = NULL, pairs = NULL, 
+updateLookup <- function(data, status = NULL, pairlookup = NULL, pairs = NULL, 
     penalty = 10, seed = NULL,
     compare = "scorefrac", round = "round", 
     player1 = "player1", player2 = "player2", 
@@ -90,7 +91,7 @@ updateLookup <- function(data, pairlookup = NULL, pairs = NULL,
             interval = c(- penalty * canMove, penalty * canMove) + 
                 getMatrixVal(x = pairlookup,
                     list1 = pairs[p, 1L], list2 = pairs[p, 2L]), 
-            data = data, 
+            data = data, status = status,
             pairlookup = pairlookup, pair = pairs[p, ], 
             compare = compare, round = round, 
             player1 = player1, player2 = player2, 

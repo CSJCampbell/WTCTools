@@ -24,7 +24,7 @@
 #'     list2 = c("b", "a", "a", "b"), stringsAsFactors = FALSE)
 #' getPred(data = dat, pairlookup = pl, result = "result")
 
-getPred <- function(data, pairlookup, round = "round", 
+getPred <- function(data, status = NULL, pairlookup, round = "round", 
     player1 = "player1", player2 = "player2", 
     result = "result", list1 = "list1", list2 = "list2") {
     
@@ -35,6 +35,7 @@ getPred <- function(data, pairlookup, round = "round",
     
     # performance of player given list
     rating_player <- steph(x = data[, c(round, player1, player2, result)], 
+        status = status,
         gamma = gammaVar)
     
     pstephplayer1 <- predict(object = rating_player, 

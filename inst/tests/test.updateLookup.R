@@ -23,6 +23,20 @@ test_that("updateLookup", {
                 .Dim = c(2L, 2L), 
                 .Dimnames = list(c("a", "b"), c("a", "b")))))
     
+    out <- updateLookup(data = dat, status = data.frame(Player = c("A", "B"), 
+        Rating = c(1400, 1600), Deviation = 200, Games = 0, Win = 0, 
+        Draw = 0, Loss = 0, Lag = 0, stringsAsFactors = FALSE), 
+        penalty = 30, inflate = 2)
+    
+    expect_equal(object = out, 
+        expected = structure(
+            c(0, 216.461275614399, -216.461275614399, 0), 
+            .Dim = c(2L, 2L), 
+            .Dimnames = list(c("a", "b"), c("a", "b")), 
+            n = structure(c(0, 12, 12, 0), 
+                .Dim = c(2L, 2L), 
+                .Dimnames = list(c("a", "b"), c("a", "b")))))
+    
     dat <- data.frame(round = rep(1:3, each = 2), 
         player1 = c("Alf", "Denny", "Denny", "Brad", "Alf", "Cass"),
         player2 = c("Cass", "Brad", "Cass", "Alf", "Denny", "Brad"),
