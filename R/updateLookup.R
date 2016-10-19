@@ -101,14 +101,15 @@ updateLookup <- function(data, pairlookup = NULL, pairs = NULL,
             list1 = pairs[p, 1L], 
             list2 = pairs[p, 2L], 
             x = pairlookup, 
-            val = vmin$minimum)
+            val = vmin$minimum, 
+            type = "neg")
         
         attr(x = pairlookup, which = "n") <- setMatrixVal(
             list1 = pairs[p, 1L], 
             list2 = pairs[p, 2L], 
             x = attr(x = pairlookup, which = "n"), 
             val = nrecords + lastN, 
-            neg = FALSE)
+            type = "same")
     }
     return(pairlookup)
 }

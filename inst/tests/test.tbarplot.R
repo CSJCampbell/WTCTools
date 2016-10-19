@@ -21,7 +21,7 @@ if (require(visualTest)) {
         dev.off()
         expect_true(object = isSimilar(
             file = "test-tbarplot1.png", 
-            fingerprint = system.file(package = "WTCTools", "examples", "tbarplot1.png"))
+            fingerprint = system.file(package = "WTCTools", "examples", "tbarplot1.png")))
         unlink("test-tbarplot1.png")
     })
     
@@ -43,7 +43,7 @@ if (require(visualTest)) {
         dev.off()
         expect_true(object = isSimilar(
             file = "test-tbarplot1.png", 
-            fingerprint = system.file(package = "WTCTools", "examples", "tbarplot1.png"))
+            fingerprint = system.file(package = "WTCTools", "examples", "tbarplot1.png")))
         unlink("test-tbarplot1.png")
     })
 }
