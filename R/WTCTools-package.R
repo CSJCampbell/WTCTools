@@ -9,6 +9,7 @@
 #' @docType package
 #' @name WTCTools-package
 #' @import PlayerRatings
+#' @import dplyr
 #' @author Lacerto
 
 NULL

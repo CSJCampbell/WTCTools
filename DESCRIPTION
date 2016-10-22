@@ -7,7 +7,7 @@ Author: Lacerto
 Maintainer: <chrissjcampbell@googlemail.com>
 Description: Use chess rankings for analysing list pairings.
 Imports:
-    PlayerRatings
+    PlayerRatings,
     dplyr
 Suggests:
     testthat

@@ -137,7 +137,8 @@ allbarplots <- function(lookups, lists, nmin = 3L,
 
 tbarplot <- function(x, list1, list2, 
     pmain = "", penalty = 10, nmin = 3L,
-    col = "#FF000022", xlim, bands = c(1, 3, 10), ...) {
+    col = "#FF000022", xlim, bands = c(1, 3, 10), 
+    mar = c(2, 7, 2, 1), las = 1, ...) {
     if (!is.matrix(x)) { 
         stop("x must be a matrix, but was a ", class(x))
     }
@@ -166,7 +167,7 @@ tbarplot <- function(x, list1, list2,
         2 * max(bands, na.rm = TRUE) * penalty * max(se, na.rm = TRUE))) }
     
     op <- par(list("mar", "las"))
-    par(mar = c(2, 7, 2, 1), las = 1)
+    par(mar = mar, las = las)
     on.exit(par(mar = op))
     # blank canvass
     pos <- barplot(vec, names.arg = "",
