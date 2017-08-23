@@ -17,7 +17,7 @@ playMatchup(team1, team2, data, ratings, pairlookup, round = 7)
     \item List
 }}
 
-\item{ratings}{\link[PlayerRatings]{rating} object}
+\item{ratings}{rating object}
 
 \item{pairlookup}{matrix with gamma correction for 
 matchup pairing with column and row names in List}

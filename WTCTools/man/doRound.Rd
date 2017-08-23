@@ -39,7 +39,7 @@ account list pairs, calculate results for a given round.
 Take into account results for previous rounds if provided.
 }
 \examples{
-rat <- steph(x = wtc2014[, c("round", "player1", "player2", "TP")])
+rat <- PlayerRatings::steph(x = wtc2014[, c("round", "player1", "player2", "TP")])
 players2014 <- unique(c(wtc2014$player1, wtc2014$player2))
 players2015 <- unique(wtc2015_players$Player)
 rat$ratings <- rbind(rat$ratings, 
