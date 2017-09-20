@@ -13,7 +13,7 @@
 #' ind(n = 6)
 #' ## [1] 2 1 4 3 6 5
 
-ind <- function(n) { 
+ind <- function(n) {
     if (n %% 2 != 0) { warning("could not match all records") }
     out <- integer(n)
     alt <- seq.int(from = 1, to = floor(n / 2)) * 2
@@ -22,38 +22,15 @@ ind <- function(n) {
     return(out)
 }
 
-#' @title Convert Accented Characters to Plain
-#' @description uses \code{chartr} to transpose characters.
-#' https://stackoverflow.com/questions/17517319/r-replacing-foreign-characters-in-a-string
-#' @param s character vector
-#' return character vector
-#' @export
-#' @examples
-#' toPlain("Štepan Slavik")
-
-toPlain <- function(s) {
-    # 1 character substitutions
-    old1 <- "ÂÅÃŠšşàáâãäåçèéêëìíîïğñòóôõöùúûüı"
-    new1 <- "AAASszyaaaaaaceeeeiiiidnooooouuuuy"
-    s1 <- chartr(old1, new1, s)
-
-    # 2 character substitutions
-    old2 <- c("œ", "ß", "æ", "ø")
-    new2 <- c("oe", "ss", "ae", "oe")
-    s2 <- s1
-    for (i in seq_along(old2)) {
-        s2 <- gsub(pattern = old2[i], 
-            replacement = new2[i], x = s2, fixed = TRUE)
-    }
-    s2
-}
-
 #' @title Print names that are similar
 #' @description use \code{adist} to find matrices of distances
-#' between names.
+#' between names. First letter is not usually incorrect, 
+#' so search alphabetically.
 #' @param s character vector
 #' @param dist integer specifying how close records should be
 #' @return NULL
+#' @importFrom stringi stri_trans_general
+#' @export
 #' @examples
 #' showSimilarNames(c("Minnie", "Millie", "Ernestine"))
 
@@ -66,6 +43,7 @@ showSimilarNames <- function(s, dist = 4L) {
             x = casefold(pn), value = TRUE)
         if (length(pnlet) > 0) {
             dmatlet <- adist(x = pnlet)
+            # don't show reverse pair or self-pair
             dmatlet <- dmatlet * lower.tri(dmatlet)
             pnlet <- pn[casefold(pn) %in% pnlet]
             for (rowlet in seq_len(nrow(dmatlet))) {
