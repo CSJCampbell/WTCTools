@@ -21,7 +21,7 @@ install_github("CSJCampbell/WTCTools")
 
 This package also includes tests in **testthat** format. 
 From R run the call `test_package("WTCTools")`.
-This package contains the WTC dataset for 2013 - 2015.
+This package contains the WTC dataset for 2013 - 2016.
 Player 1 won when TP is 1; Player 2 won when TP is 0.
 ```R
 library(WTCTools)
