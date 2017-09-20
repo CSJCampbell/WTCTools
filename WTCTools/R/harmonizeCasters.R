@@ -9,7 +9,7 @@
 #' @examples 
 #' harmonizeCasters(c("Vlad", "Vlad1", "Vald 1"))
 #' @export
-#' @importFrom stringr str_replace str_c
+#' @importFrom stringr str_replace str_replace_all str_c
 
 harmonizeCasters <- function(x) {
     casters <- c("Absylonia 1", "Absylonia 2", "Agathia 1", "Amon 1", "Arkadius 1", 
