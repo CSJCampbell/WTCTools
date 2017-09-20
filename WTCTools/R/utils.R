@@ -49,12 +49,18 @@ toPlain <- function(s) {
 }
 
 #' @title Print names that are similar
+#' @description use \code{adist} to find matrices of distances
+#' between names.
+#' @param s character vector
+#' @param dist integer specifying how close records should be
+#' @return NULL
 #' @examples
 #' showSimilarNames(c("Minnie", "Millie", "Ernestine"))
 
 showSimilarNames <- function(s, dist = 4L) {
-    pn <- stri_trans_general(str = s, id = "latin-ascii")
-    
+    pn <- stri_trans_general(str = unique(s), id = "latin-ascii")
+    counter <- 1L
+    out <- matrix(NA_character_, nrow = length(s), ncol = 2)
     for (let in letters) {
         pnlet <- grep(pattern = paste0("^", let), 
             x = casefold(pn), value = TRUE)
@@ -66,10 +72,13 @@ showSimilarNames <- function(s, dist = 4L) {
                 x <- dmatlet[rowlet, ]
                 if (any(x[x != 0] < dist)) {
                     for (hits in pnlet[x < dist & x > 0]) {
-                        message(pnlet[rowlet], "  :  ", hits)
+                        out[counter, ] <- c(pnlet[rowlet], hits)
+                        counter <- counter + 1L
                     }
                 }
             }
         }
     }
+    out[apply(out, MARGIN = 1, FUN = function(x) !all(is.na(x))), , 
+        drop = FALSE]
 }
