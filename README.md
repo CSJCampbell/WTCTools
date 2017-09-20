@@ -16,7 +16,7 @@ how to use this code
 install.packages("devtools")
 library(devtools)
 # install WTCTools
-install_github("CSJCampbell/WTCTools")
+install_github("CSJCampbell/WTCTools/WTCTools")
 ```
 
 This package also includes tests in **testthat** format. 
