@@ -45,7 +45,9 @@ harmonizeCasters <- function(x) {
         "Vladimir 2", "Vladimir 3", "Vyros 1", "Vyros 2", "Wanderer 1", "Wurmwood 1", 
         "Xekaar 1", "Xerxis 1", "Xerxis 2", "Zaal 1", "Zaal 2", "Zaadesh 2", "Zerkova 1", 
         "Zerkova 2")
-
+    # remove leading/trailing space
+    x <- str_replace_all(string = x, pattern = ("^ +| +$"), replacement = "")
+    # fix if known error, otherwise warn
     if (!all(x %in% casters)) {
         # no number, add 1
         x[grepl(pattern = "^[A-Za-z -&]+$", x = x)] <- paste0(
@@ -85,13 +87,19 @@ harmonizeCasters <- function(x) {
         x <- str_replace(pattern = "^Jarl 1$", string = x, replacement = "Skuld 1")
         # Saeryn
         x <- str_replace(pattern = "^(Saeryn 2|Saeryn & Rhyas.*)$", string = x, replacement = "Saeryn 2 & Rhyas 2")
+        # Sturm & Drang
+        x <- str_replace(pattern = "^(Sturm|Sturm & Drang.*)$", string = x, replacement = "Sturm 1 & Drang 1")
         # Amon
         x <- str_replace(pattern = "^Ad[- ]Raza 1$", string = x, replacement = "Amon 1")
         # Damiano
         x <- str_replace(pattern = "^Captain Damiano 1$", string = x, replacement = "Damiano 1")
+        # Cyphon
         x <- str_replace(pattern = "^Cognifex Cyphon 1$", string = x, replacement = "Cyphon 1")
+        # MacBain
         x <- str_replace(pattern = "^Drake M(a){0,1}cBain 1$", string = x, replacement = "MacBain 1")
+        # Thexus
         x <- str_replace(pattern = "^Exulon Thexus 1$", string = x, replacement = "Thexus 1")
+        # Ragnor
         x <- str_replace(pattern = "^Ragnar 1$", string = x, replacement = "Ragnor 1")
         
         isStillMissed <- !x %in% casters
