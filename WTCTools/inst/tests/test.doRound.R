@@ -3,7 +3,8 @@ context("check do round")
 
 test_that("doRound", {
     
-    data(wtc2014)
+    data(wtc)
+    wtc2014 <- wtc[wtc$year == 2014, ]
     data(wtc2015_players)
     
     rat <- steph(x = wtc2014[, c("round", "player1", "player2", "TP")])
@@ -22,8 +23,8 @@ test_that("doRound", {
     
     cf <- structure(
         list(
-            Total.Games.Won = c(3, 4, 4, 1, 2, 2, 3, 2, 4, 
-                3, 3, 1, 2, 1, 1, 2, 2, 3, 1, 1, 1, 1, 4, 4, 3, 4, 1, 1, 2, 3, 
+            Total.Games.Won = c(3, 4, 4, 1, 2, 2, 3, 2, 3, 
+                3, 3, 1, 2, 2, 1, 2, 2, 3, 1, 1, 1, 1, 4, 4, 3, 4, 1, 1, 2, 3, 
                 1, 3, 2, 3, 2, 2, 3, 3, 2, 4, 3, 4, 2, 3, 4, 3, 2, 2, 4, 4), 
             Matches.Won = c(1, 1, 1, 0, 0, 0, 1, 0, 1, 1, 1, 0, 0, 0, 
                 0, 0, 0, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 

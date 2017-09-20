@@ -3,7 +3,7 @@ context("check play matchup")
 
 test_that("playMatchup", {
     
-    data(wtc2014)
+    wtc2014 <- wtc[wtc$year == 2014, ]
     data(wtc2015_players)
     set.seed(436260)
     ratingtst <- steph(x = wtc2014[, c("round", "player1", "player2", "TP")])

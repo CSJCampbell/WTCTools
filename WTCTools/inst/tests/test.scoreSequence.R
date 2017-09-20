@@ -20,7 +20,9 @@ test_that("scoreSequence", {
             scoreSequence(guess = c("aa", "ab", "a"), result = paste0(letters, "b"))), 
         expected = structure(29/3, n = 3L))
     
-    expect_equal(object = scoreSequence(guess = "Australia", result = leaderboard15$Team), 
+    expect_equal(object = scoreSequence(guess = "Australia", 
+        result = c("Team Finland Blue", "Team Australia Platypus", "Team Poland Leaders", 
+        "Team Australia Wombat", "Team Germany Dichter & Denker", "Team England Roses")), 
         expected = structure(2, n = 1L))
     
     expect_equal(object = suppressWarnings(
