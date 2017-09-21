@@ -60,3 +60,5 @@ showSimilarNames <- function(s, dist = 4L) {
     out[apply(out, MARGIN = 1, FUN = function(x) !all(is.na(x))), , 
         drop = FALSE]
 }
+
+
